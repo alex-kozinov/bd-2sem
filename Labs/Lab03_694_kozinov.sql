@@ -31,7 +31,7 @@ LIMIT 10
 SELECT count(f.flight_no)
 FROM flights f, airports a
 WHERE a.airport_code = f.departure_airport
-AND a.city='Москва'
+AND a.city='РњРѕСЃРєРІР°'
 AND f.arrival_airport='LED'
 6.
 SELECT f.flight_no, ai.city, f.scheduled_departure,
