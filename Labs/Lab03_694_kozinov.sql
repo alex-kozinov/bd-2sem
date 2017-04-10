@@ -13,26 +13,28 @@ GROUP BY passenger_name
 ORDER BY count(ticket_no) DESC
 LIMIT 10
 4.
-SELECT  tick.passenger_name, 
-	count(tick.ticket_no) as "Number of flights",
-	round(cast(AVG(book.total_amount) as decimal), 2) as "average cost"
-FROM bookings book
-INNER JOIN tickets tick ON (book.book_ref = tick.book_ref)
-GROUP BY passenger_name
-HAVING count(tick.ticket_no) >= (SELECT count(t.ticket_no)
-				 FROM tickets t
-				 GROUP BY t.passenger_name
-				 ORDER BY count(t.ticket_no) DESC
-				 OFFSET 10 Rows
-				 LIMIT 1)
-ORDER BY count(tick.ticket_no) DESC
-LIMIT 10
+WITH passengers AS (
+	SELECT passenger_name, count(ticket_no) as "tickets_number"
+	FROM tickets
+	GROUP BY passenger_name
+	ORDER BY count(ticket_no) DESC
+	LIMIT 10
+	)
+SELECT  passenger_name, 
+	tickets_number,
+	round(cast(AVG(amount) as decimal), 2) as "average cost"
+FROM passengers
+INNER JOIN tickets using (passenger_name)
+INNER JOIN ticket_flights using (ticket_no)
+GROUP BY passenger_name, tickets_number
+ORDER BY AVG(amount)
 5.
-SELECT count(f.flight_no)
+SELECT count(DISTINCT f.flight_no)
 FROM flights f, airports a
 WHERE a.airport_code = f.departure_airport
 AND a.city='Москва'
 AND f.arrival_airport='LED'
+
 6.
 SELECT f.flight_no, ai.city, f.scheduled_departure,
        count(bp.seat_no) FILTER (WHERE tf.fare_conditions='Economy') as "Econumy seats",
