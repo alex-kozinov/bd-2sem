@@ -32,7 +32,7 @@ ORDER BY AVG(amount)
 SELECT count(DISTINCT f.flight_no)
 FROM flights f, airports a
 WHERE a.airport_code = f.departure_airport
-AND a.city='Москва'
+AND a.city='РњРѕСЃРєРІР°'
 AND f.arrival_airport='LED'
 
 6.
