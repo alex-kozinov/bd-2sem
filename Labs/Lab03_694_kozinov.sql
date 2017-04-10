@@ -61,7 +61,7 @@ GROUP BY ti.passenger_name
 HAVING AVG(tf.amount) < 20000
 ORDER BY AVG(tf.amount) DESC
 8.
-SELECT ti.ticket_no, tf.flight_id, fl.scheduled_departure, sum(tf.amount) OVER (ORDER BY fl.scheduled_departure)
+SELECT ti.ticket_no, tf.flight_id, fl.scheduled_departure, tf.amount, sum(tf.amount) OVER (ORDER BY fl.scheduled_departure) as early_sum
 FROM tickets ti, ticket_flights tf, flights fl
 WHERE ti.ticket_no = tf.ticket_no
 AND tf.flight_id = fl.flight_id
