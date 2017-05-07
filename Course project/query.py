@@ -3,6 +3,7 @@ database = "database.db"
 
 
 conn = bcom.create_connection(database)
-bcom.query_from_file(conn, "query.sql", "SELECT")
+curr = conn.cursor()
+bcom.query_from_file(curr, "query.sql", "SELECT")
 conn.commit()
 conn.close()
