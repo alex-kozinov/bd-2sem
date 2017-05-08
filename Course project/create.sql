@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Pupils (
 	surname         VARCHAR(100) NOT NULL,
 	midname        	VARCHAR(100),
 	city            VARCHAR(100),
-	gender          VARCHAR(1)   CHECK(gender == 'M' OR gender == 'F'),
+	gender          VARCHAR(1)   NOT NULL CHECK(gender == 'M' OR gender == 'F'),
 	faculty_code    INTEGER      REFERENCES Faculty(faculty_code)
 );
 

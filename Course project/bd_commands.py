@@ -4,6 +4,12 @@ import os
 def cls():
     os.system(['clear','cls'][os.name == 'nt'])
 
+def read_str():
+    ans = input(">")
+    while ans == "":
+        ans = input(">")
+    return ans;
+
 class Pupil(object):
     def __init__(self):
         self.passport = "Null"
@@ -23,6 +29,17 @@ class Pupil(object):
         self.gender = data[5]
         self.faculty_code = data[6]
 
+    def init_with_passport(self, cursor):
+        query_table(cursor, "SELECT * FROM Pupils WHERE passport = " + str(self.passport), \
+                    None, "Incorrect passport ")
+
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return 0
+
+        self.assign_data(res[0])
+        return 1
+
     def insert(self, cursor):
         query_table(cursor, "INSERT INTO Pupils" \
                          "(passport, name, surname, midname, city, gender, faculty_code)" \
@@ -32,23 +49,42 @@ class Pupil(object):
 
     def read_passport(self):
         print("Серия: ")
-        self.passport = input()
+        self.passport = read_str()
         print("Номер: ")
-        self.passport = self.passport + input()
+        self.passport = self.passport + read_str()
 
-    def read_other_data(self):
+    def read_name(self):
         print("Введите Имя: ")
-        self.name = input()
+        self.name = read_str()
+
+    def read_surname(self):
         print("Введите Фамилию: ")
-        self.surname = input()
+        self.surname = read_str()
+
+    def read_midname(self):
         print("Введите Отчество: ")
-        self.midname = input()
+        self.midname = input(">")
         if self.midname == "":
             self.midname = "NULL"
-        print("Введите город: ")
-        self.city = input()
-        print("Введите пол (M/F): ")
-        self.gender = input()
+
+    def read_city(self):
+        print("Введите Город: ")
+        self.city = input(">")
+        if self.city == "":
+            self.city = "NULL"
+
+    def read_gender(self):
+        print("Введите ваш пол (M/F): ")
+        self.gender = read_str()
+        while self.gender != "M" and self.gender != "F":
+            self.gender = read_str()
+
+    def read_other_data(self):
+        self.read_name()
+        self.read_surname()
+        self.read_midname()
+        self.read_city()
+        self.read_gender()
 
 def create_connection(db_file):
     conn = sqlite3.connect(db_file)
