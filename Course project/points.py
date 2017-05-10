@@ -76,7 +76,7 @@ def pointSet(cursor, person):
             return
 
         if in_ == "1":
-            changeName(cursor, person)    
+            changeFIO(cursor, person)    
         
         if in_ == "2":
             changeGender(cursor, person)
@@ -84,7 +84,7 @@ def pointSet(cursor, person):
         if in_ == "3":
             changeCity(cursor, person)
  
-def changeName(cursor, person):
+def changeFIO(cursor, person):
     while True:
         cls();
         print("\tВведите 0 для выхода в предыдущее меню\n"
@@ -98,19 +98,13 @@ def changeName(cursor, person):
             return
 
         if in_ == "1":
-            insertSurname(cursor, person)        
+            changeSurname(cursor, person)        
        
         if in_ == "2":
-            insertName(cursor, person)
+            changeName(cursor, person)
 
         if in_ == "3":
-            insertMidname(cursor, person)
-
-def changeGender(cursor, person):
-    insertGender(cursor, person)
-
-def changeCity(cursor, person):
-    insertCity(cursor, person)   
+            changeMidname(cursor, person)
     
 def pointService(cursor, person):
     while True:
