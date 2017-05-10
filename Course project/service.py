@@ -156,3 +156,15 @@ def insertDocsOnFaculty(cursor, person):
                     break
                 elif original == "Yes" and person.faculty_code != "NULL":
                     print("Вы уже подали оригинал")
+
+            if original == "q":
+                continue
+
+            if original == "Yes":
+                person.faculty_code = code
+
+            query_table(cursor, "INSERT INTO Documents" \
+                                "(passport, faculty_code)" \
+                                "VALUES(?, ?)",
+                                (self.passport, code),
+                                "Incorrect data: ")
