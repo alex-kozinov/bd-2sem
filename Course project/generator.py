@@ -1,7 +1,7 @@
 import random
 
 input_file = "data_for_generation/university_town"
-output_file = "sql_quiries/rand_faculty.sql"
+output_file = "sql_queries/rand_faculty.sql"
 table_name = "Faculty"
 start_code = 50
 alphabet = "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЫЭЮЯ"
