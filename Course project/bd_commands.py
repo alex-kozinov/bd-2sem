@@ -103,3 +103,20 @@ def query_from_file(cursor, file_name, commands_type):
             query_table(cursor, c, None, "Wrong command format in file")
             for i in cursor:
                 print(str(i))
+
+
+def clear(cursor, files):
+    for i in files:
+        query_from_file(cursor, i, "DROP")
+
+def select_commands(cursor, files):
+    for i in files:
+        query_from_file(cursor, i, "SELECT")
+
+def create(cursor, files):
+    for i in files:
+        query_from_file(cursor, i, "CREAT")
+
+def filling(cursor, files):
+    for i in files:
+        query_from_file(cursor, i, "INSERT")
