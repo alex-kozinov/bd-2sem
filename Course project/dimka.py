@@ -30,6 +30,9 @@ def printOlympiadsResults(cursor, person)
     cls()
     olympiadsResult(cursor, person)
 
+def printSubject(cursor):
+    cls()
+    subject(cursor)
 
 
 
@@ -81,5 +84,12 @@ ON Subject.subject_code=pe.subject"), (person.passport)
     cls()
     if cursor.fetchall() == []
         print ("Экзамены не заполнины")
-    print_tabele(["предмет", "результат"], cursor.fetchall());
+    print_table(["предмет", "результат"], cursor.fetchall());
+
+def subject(cursor):
+    query_table(cursor? "SELECT DISTINCT subject_code, subgect_name FROM Subject")
+    cls()
+    if cursor.fetchall() == []
+        print ("Предметов нет!")
+    print_table(["код предмета", "предмет"], cursor.fetchall())
 
