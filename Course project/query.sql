@@ -1,1 +1,1 @@
-SELECT * FROM Pupils
+SELECT * FROM Faculty

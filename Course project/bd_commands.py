@@ -1,14 +1,5 @@
+from simple import *
 import sqlite3
-import os
-
-def cls():
-    os.system(['clear','cls'][os.name == 'nt'])
-
-def read_str():
-    ans = input(">")
-    while ans == "":
-        ans = input(">")
-    return ans;
 
 class Pupil(object):
     def __init__(self):
@@ -86,6 +77,7 @@ class Pupil(object):
         self.read_city()
         self.read_gender()
 
+
 def create_connection(db_file):
     conn = sqlite3.connect(db_file)
     return conn
@@ -101,8 +93,6 @@ def query_table(cursor, query_sql, params, error_text):
         print(error_text, e.args[0])
 
 
-
-
 def query_from_file(cursor, file_name, commands_type):
     with open(file_name) as file_query:
         s = file_query.read()
@@ -113,5 +103,3 @@ def query_from_file(cursor, file_name, commands_type):
             query_table(cursor, c, None, "Wrong command format in file")
             for i in cursor:
                 print(str(i))
-
-
