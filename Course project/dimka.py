@@ -1,5 +1,19 @@
 from bd_commands import *
 
+def pointUniverInTown(cursor):
+    cls()
+    print ("Введите город на русском: ")
+    in_ = input(">")
+    universityInTown(cursor, in_)
+
+def pointFakultInUniversity(cursor):
+    cls()
+    print ("Введите город на русском: ")
+    inCity = input(">")
+    print ("Введите университет на русском: ")
+    inUniver = input(">")
+    fakultetInUniversity(cursor, inCity, inUniver)
+
 def universityInTown(cursor, nameTown):
     query_table(cursor, "SELECT DISTINCT university FROM Faculty WHERE city=?", (nameTown, ), "Dimka fail!")
     cls()
