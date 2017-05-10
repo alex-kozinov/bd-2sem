@@ -31,11 +31,16 @@ class Pupil(object):
         self.assign_data(res[0])
         return 1
 
+    def erase(self, cursor):
+        query_table("DELETE" \
+                    "FROM Pupils" \
+                    "Where passport=?", self.passport)
+
     def insert(self, cursor):
         query_table(cursor, "INSERT INTO Pupils" \
-                         "(passport, name, surname, midname, city, gender, faculty_code)" \
-                         "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (self.passport, self.name, self.surname, self.midname, self.city, self.gender, self.faculty_code),
+                            "(passport, name, surname, midname, city, gender, faculty_code)" \
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                   (self.passport, self.name, self.surname, self.midname, self.city, self.gender, self.faculty_code),
                     "Incorrect Pupil's data: ")
 
     def read_passport(self):

@@ -133,5 +133,3 @@ def pointService(cursor, person):
             
         if in_ == 3:
             insertDocsOnFaculty(cursro, person)    
-            
-             
