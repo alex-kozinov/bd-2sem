@@ -125,3 +125,7 @@ def create(cursor, files):
 def filling(cursor, files):
     for i in files:
         query_from_file(cursor, i, "INSERT")
+
+def getColumn(cursor, table_name, column_name):
+    query_table(cursor, "SELECT DISTINCT ? FROM ?", (column_name, table_name))
+    return cursor.fetchall
