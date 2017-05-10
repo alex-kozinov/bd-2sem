@@ -3,13 +3,13 @@ import sqlite3
 
 class Pupil(object):
     def __init__(self):
-        self.passport = "Null"
-        self.name = "Null"
-        self.surname = "Null"
-        self.midname = "Null"
-        self.city = "Null"
-        self.gender = "Null"
-        self.faculty_code = "Null"
+        self.passport = "NULL"
+        self.name = "NULL"
+        self.surname = "NULL"
+        self.midname = "NULL"
+        self.city = "NULL"
+        self.gender = "NULL"
+        self.faculty_code = "NULL"
 
     def assign_data(self, data):
         self.passport = data[0]
