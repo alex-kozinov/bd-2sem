@@ -19,7 +19,7 @@ def print_table(column_name, cort):
 
     for i in range(0, n):
         for j in cort:
-            lens[i] = max(lens[i], len(j[i]))
+            lens[i] = max(lens[i], len(str(j[i])))
 
     width = sum(lens[i] for i in range(0, n)) + n + 1
     format_str = "|"
