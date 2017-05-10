@@ -30,13 +30,14 @@ def mainPoint(cursor, person):
 def pointCom(cursor, person):
     while True:
         cls()
-        print ("\tВведите 0 для выхода в главное меню\n"
+        print ("\tВведите 0 для выхода в главное меню\n",
                "\tВведите 1, чтобы получить все ВУЗы в городе\n",
-               "\tВведите 2, чтобы получить все факультеты в ВУЗе\n"
-               "\tВведите 3, чтобы получить все факультеты, на которые Вы подали документы\n")
-               "\tВведите 4, чтобы получить список всех олимпиад\n"
-               "\tВведите 5, чтобы получить результаты ЕГЭ\n"
-               "\tВведите 6, чтобы получить список добавленных олимпиад\n"
+               "\tВведите 2, чтобы получить все факультеты в ВУЗе\n",
+               "\tВведите 3, чтобы получить все факультеты, на которые Вы подали документы\n",
+               "\tВведите 4, чтобы получить список всех предметов\n",
+               "\tВведите 5, чтобы получить список всех олимпиад\n",
+               "\tВведите 6, чтобы получить результаты ЕГЭ\n",
+               "\tВведите 7, чтобы получить список добавленных олимпиад\n")
         in_ = input(">")
 
         if in_ == "0":
@@ -52,12 +53,15 @@ def pointCom(cursor, person):
             printFacultiesWithDocs(cursor, person)
         
         if in_ == "4":
-            printOlympiads(cursor)
+            printSubjects(cursor)
 
         if in_ == "5":
+            printOlympiads(cursor)
+
+        if in_ == "6":
             printExamsResults(cursor, person)
     
-        if in_ == "6":
+        if in_ == "7":
             printOlympiadsResults(cursor, person)
 
 
@@ -65,9 +69,9 @@ def pointCom(cursor, person):
 def pointSet(cursor, person):
     while True:
         cls()
-        print("\tВведите 0 для выхода в предыдущее меню\n"
-              "\tВведите 1 для изменения ФИО\n"
-              "\tВведите 2 для изменения пола\n"
+        print("\tВведите 0 для выхода в предыдущее меню\n",
+              "\tВведите 1 для изменения ФИО\n",
+              "\tВведите 2 для изменения пола\n",
               "\tВведите 3 для изменения города\n")
 
         in_ = input(">")
@@ -76,7 +80,7 @@ def pointSet(cursor, person):
             return
 
         if in_ == "1":
-            changeName(cursor, person)    
+            changeFIO(cursor, person)    
         
         if in_ == "2":
             changeGender(cursor, person)
@@ -84,12 +88,12 @@ def pointSet(cursor, person):
         if in_ == "3":
             changeCity(cursor, person)
  
-def changeName(cursor, person):
+def changeFIO(cursor, person):
     while True:
         cls();
-        print("\tВведите 0 для выхода в предыдущее меню\n"
-              "\tВведите 1 для изменения фамилии\n"
-              "\tВведите 2 для изменения имени\n"
+        print("\tВведите 0 для выхода в предыдущее меню\n",
+              "\tВведите 1 для изменения фамилии\n",
+              "\tВведите 2 для изменения имени\n",
               "\tВведите 3 для изменения отчества\n")
 
         in_ = input(">")
@@ -98,27 +102,22 @@ def changeName(cursor, person):
             return
 
         if in_ == "1":
-            insertSurname(cursor, person)        
+            changeSurname(cursor, person)        
        
         if in_ == "2":
-            insertName(cursor, person)
+            changeName(cursor, person)
 
         if in_ == "3":
-            insertMidname(cursor, person)
-
-def changeGender(cursor, person):
-    insertGender(cursor, person)
-
-def changeCity(cursor, person):
-    insertCity(cursor, person)   
+            changeMidname(cursor, person)
     
 def pointService(cursor, person):
     while True:
         cls()
-        print("\tВведите 0 для выхода в предыдущее меню\n"
-              "\tВведите 1 для ввода результатов ЕГЭ\n"
-              "\tВведите 2 для ввода результатов олимпиад\n"
-              "\tВведите 3 для подачи документов на факультет\n")
+        print("\tВведите 0 для выхода в предыдущее меню\n",
+              "\tВведите 1 для ввода результатов ЕГЭ\n",
+              "\tВведите 2 для ввода результатов олимпиад\n",
+              "\tВведите 3 для подачи документов на факультет\n",
+              "\tВведите 4, если хотите забрать документы с факультета")
         
         in_ = input(">")
         
@@ -131,5 +130,8 @@ def pointService(cursor, person):
         if in_ == "2":
             insertOlympiadsResults(cursor, person)
             
-        if in_ == 3:
-            insertDocsOnFaculty(cursro, person)    
+        if in_ == "3":
+            insertDocsOnFaculty(cursor, person)    
+
+        if in_ == "4":
+            deleteDocsFromFaculty(cursro, person)
