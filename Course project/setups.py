@@ -83,3 +83,43 @@ def printOlympiadsResults(cursor, person):
         return
     print_table(("Название Олимпиады", "Предмет", "Уровень", "Степень"), cursor.fetchall())
     input("Введите любую клавишу для продолжения...")
+
+def deleteDocsFromFaculty(cursor, person):
+    while True:
+        print("\tВведите 0 для выхода в предыдущее меню\n" \
+              "\tВведите 1, если хотите подать документы\n")
+
+        in_ = input(">")
+
+        if in_ == "0":
+            return
+
+        if in_ == "1":
+            code = -1
+            cls()
+            print("Введите код факультета, из которова вы хотите забрать документы (или q для отмены)")
+            while True:
+
+                in_ = input(">")
+
+                if in_ == "q":
+                    break
+
+                code = input(">")
+                faculty_codes = getColumns(cursor, "Documents",
+                                                   ["faculty_code", ],
+                                                   [("passport", person.passport)]
+                                           )
+                if not (code in faculty_codes):
+                    print("Вы не подавали документы в этот вуз")
+                    code = -1
+                    continue
+
+                code = int(code)
+
+            if code == -1:
+                continue
+
+            query_table(cursor, "DELETE FROM Documents\nWHERE faculty_code = ?", code,
+                        "Ошибка в удалении поданного документа")
+            

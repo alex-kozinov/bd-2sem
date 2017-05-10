@@ -126,9 +126,19 @@ def filling(cursor, files):
     for i in files:
         query_from_file(cursor, i, "INSERT")
 
-def getColumns(cursor, table_name, column_names):
-    size = len(column_names)
-    query_str = "SELECT DISTINCT " + "? " * size + "FROM ?"
-    column_names.append(table_name)
-    query_table(cursor, query_str, column_names)
+def getColumns(cursor, table_name, colum_names, limits=[]):
+    size = len(colum_names)
+    query_str = "SELECT DISTINCT " +\
+                "{} " * len(colum_names) +\
+                "FROM {}\n WHERE 1\n"
+
+    colum_names.append(table_name)
+    query_str = query_str.format(colum_names)
+    params = []
+
+    for i in limits:
+        query_str += "AND {} = ?\n".format(i[0])
+        params.append(i[1])
+
+    query_table(cursor, query_str, params, "Ошибка в запросе проецирования(внутренняя ошибка)")
     return cursor.fetchall()
