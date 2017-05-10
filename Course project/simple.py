@@ -29,7 +29,7 @@ def print_table(column_name, cort):
         format_str = format_str + number_format
 
     print(horisont_str)
-    print(format_str.format(column_name));
+    print(format_str.format(column_name))
     print(horisont_str)
     for i in cort:
         print(format_str.format(i))
