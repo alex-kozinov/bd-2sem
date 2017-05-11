@@ -1,5 +1,5 @@
 from simple import *
-from dimka import *
+from printInfo import *
 from setups import *
 from service import *
 
@@ -121,7 +121,7 @@ def pointService(cursor, person):
         
         in_ = input(">")
         
-        if in_ == "0"
+        if in_ == "0":
             return
         
         if in_ == "1":
@@ -134,4 +134,4 @@ def pointService(cursor, person):
             insertDocsOnFaculty(cursor, person)    
 
         if in_ == "4":
-            deleteDocsFromFaculty(cursro, person)
+            deleteDocsFromFaculty(cursor, person)

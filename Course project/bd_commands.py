@@ -32,9 +32,11 @@ class Pupil(object):
         return 1
 
     def erase(self, cursor):
-        query_table("DELETE" \
-                    "FROM Pupils" \
-                    "Where passport=?", self.passport)
+        query_table(cursor, "DELETE " \
+                            "FROM Pupils " \
+                            "Where passport = ?", \
+                            (self.passport,), \
+                            "Error in erase")
 
     def insert(self, cursor):
         query_table(cursor, "INSERT INTO Pupils" \
@@ -129,11 +131,11 @@ def filling(cursor, files):
 def getColumns(cursor, table_name, colum_names, limits=[]):
     size = len(colum_names)
     query_str = "SELECT DISTINCT " +\
-                "{} " * len(colum_names) +\
+                "{}, " * (len(colum_names) - 1) + "{} " +\
                 "FROM {}\n WHERE 1\n"
 
     colum_names.append(table_name)
-    query_str = query_str.format(colum_names)
+    query_str = query_str.format(*colum_names)
     params = []
 
     for i in limits:
