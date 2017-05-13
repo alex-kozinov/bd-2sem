@@ -2,253 +2,222 @@ from bd_commands import *
 
 def insertExamsResults(cursor, person):
     cls()
+    print_middle("Введите код предмета по которому хотите добавить результат или q для выхода.")
+
     while True:
-        print("\tВведите 0 для выхода в предыдущее меню\n"
-              "\tВведите 1, если хотите ввести результаты ЕГЭ\n")
-        
-        in_ = input(">")
+        subject = input(">")
+        if subject == "q":
+            break
 
-        if in_ == "0":
-            return
+        if (int(subject),) not in \
+                      getColumns(cursor, "Subjects", ["subject_code"]):
+            print("Некорректный код")
+            continue
 
-        if in_ == "1":
-            cls()
-            
-            subject = 0
-            
-            print("\nВведите код предмета(или q для выхода): ")
+        if (person.passport, int(subject)) in \
+                getColumns(cursor, "Exams", ["passport", "subject"]):
+            print("Результаты уже добавлены")
+            continue
+        break
 
-            while True:
-                subject = input(">")
-                if subject == "q":
-                    break
-                elif not ((int(subject),) in 
-                        getColumns(cursor, "Subjects", ["subject_code"])):
-                    print("Некорректный код")
-                    continue
-                elif (person.passport, int(subject)) in \
-                        getColumns(cursor, "Exams", ["passport", "subject"]):
-                    print("Результаты уже добавлены")
-                else:
-                    break
-            cls()
+    if subject == "q":
+        return
 
-            if subject == "q":
-                continue
+    cls()
+    print_middle("А теперь введите свои баллы по этому предмету(или q для выхода).")
+    rating = 0
 
-            rating = 0
+    while True:
+        rating = input(">")
+        if rating == "q":
+            break
 
-            print("Введите баллы(или q для выхода): ")
+        if int(rating) not in range(0, 101):
+            print("Некорректные баллы\n")
+            continue
 
-            while True:
-                rating = input(">")
-                if rating == "q":
-                    break
-                rating = int(rating)
-                if int(rating) < 0 or int(rating) > 100:
-                    print("Некорректные баллы\n")
-                    continue
-                else:
-                    break
+        break
 
-            cls()
+    if rating == "q":
+        return
 
-            if rating == "q":
-                continue
+    query_table(cursor, """
+    INSERT INTO Exams (passport, subject, rating) VALUES(?, ?, ?)
+    """, (person.passport, subject, rating), "Incorrect data: insert Exams ")
 
-            query_table(cursor, "INSERT INTO Exams " \
-                                "(passport, subject, rating) " \
-                                "VALUES(?, ?, ?)", \
-                       (person.passport, subject, rating), \
-                       "Incorrect data: ")
+    cls()
+    print_middle("Ваши результаты успешно добавлены")
+    end_command()
+
 
 def insertOlympiadsResults(cursor, person):
     cls()
+    print_middle("Введите код олимпиады по которой хотите добавить результат или q для выхода")
+
+    code = 0
     while True:
-        print("\tВведите 0 для выхода в предыдущее меню\n"
-              "\tВведите 1, если хотите ввести результаты олимпиад\n")
+        code = input(">")
+        if code == "q":
+            break
 
-        in_ = input()
+        if (int(code),) not in \
+                    getColumns(cursor, "Olympiads", ["code"]):
+            print("Некорректный код")
 
-        if in_ == "0":
-            return
+        if (int(code),) in \
+                    getColumns(cursor, "Olymp_result", ["code"]):
+            print("Результаты уже добавлены")
 
-        if in_ == "1":
-            cls()
+        break
 
-            code = 0
-            
-            print("Введите код олимпиады(или q для выхода): ")
+    if code == "q":
+        return
 
-            while True:
-                code = input(">")
-                if code == "q":
-                    break
-                elif not ((int(code),) in 
-                        getColumns(cursor, "Olympiads", ["code"])):
-                    print("Некорректный код")
-                elif (int(code),) in 
-                        getColumns(cursor, "Olymp_result", ["code"]):
-                    print("Результаты уже добавлены")
-                else:
-                    break
-            
-            cls()
+    cls()
+    print_middle("Введите степень диплома(или q для выхода): ")
 
-            if code == "q":
-                continue
+    degree = 0
+    while True:
+        degree = input(">")
+        if degree == "q":
+            break
 
-            degree = 0
+        if int(degree) not in range(0, 4):
+            print("Некорректная степень")
+        else:
+            break
 
-            print("Введите степень диплома(или q для выхода): ")
+    cls()
 
-            while True:
-                degree = input(">")
-                if degree == "q":
-                    break
-                if int(degree) < 0 or int(degree) > 3:
-                    print("Некорректная степень")
-                else:
-                    break
+    if degree == "q":
+        return
 
-            cls()
+    query_table(cursor, """
+    INSERT INTO Olymp_result (code, passport, degree) VALUES(?, ?, ?)
+    """, (int(code), person.passport, int(degree)), "Incorrect data: insert olympiads")
 
-            if degree == "q":
-                continue
+    cls()
+    print_middle("Ваши результаты успешно добавлены")
+    end_command()
+    input()
 
-            query_table(cursor, "INSERT INTO Olymp_result " \
-                                "(code, passport, degree) " \
-                                "VALUES(?, ?, ?) ", \
-                                (int(code), person.passport, int(degree)), \
-                                "Incorrect data: ")
 
 def insertDocsOnFaculty(cursor, person):
     cls()
+    if len(getColumns(cursor, "Documents", ["faculty_code"], [("passport", person.passport)])) >= 3:
+        print_middle("Вы уже подали документы на 3 факультета")
+        end_command()
+        return
+
+    print_middle("Введите код факультета, куда хотите подать документы или q для выхода")
+
+    code = 0
     while True:
-        print("\tВведите 0 для выхода в предыдущее меню\n" \
-              "\tВведите 1, если хотите подать документы\n")
+        code = input(">")
+        if code == "q":
+            break
 
-        in_ = input(">")
+        if (int(code),) not in \
+                      getColumns(cursor, "Faculty", ["Faculty_code"]):
+            print("Некорректный код")
+            continue
 
-        if in_ == "0":
-            return
+        if (person.passport, int(code)) in \
+            getColumns(cursor, "Documents", ["passport", "faculty_code"]):
+            print("Вы уже подали документы на этот факультет")
+            continue
 
-        if in_ == "1":
-            
-            if len(getColumns(cursor, "Documents", ["faculty_code"], \
-                    [("passport", person.passport)])) >= 3:
-                print("Вы уже подали документы на 3 факультета")
-                continue
+        break
 
-            code = 0
+    if code == "q":
+        return
 
-            print("Введите код факультета(или q для выхода): ")
+    passed = True
+    for i in range(1, 4):
+        subject = getColumns(cursor, "Faculty",["subject" + str(i)],
+                             [("faculty_code", int(code))])[0][0]
+        if len(getColumns(cursor, "Exams", ["passport"], \
+                          [("passport", person.passport), \
+                           ("subject", int(subject))])) == 0:
+            passed = False
 
-            while True:
-                code = input(">")
-                if code == "q":
-                    break
-                elif not ((int(code),) in 
-                        getColumns(cursor, "Faculty", ["Faculty_code"])):
-                    print("Некорректный код")
-                elif (person.passport, int(code)) in 
-                        getColumns(cursor, "Documents", \
-                                   ["passport", "faculty_code"]):
-                    print("Вы уже подали документы на этот факультет")
-                else:
-                    break
-            
-            if code == "q":
-                continue
-            
-            passed = True
+    cls()
+    if not passed:
+        print_middle("Вы не сдали все необходимые экзамены")
+        end_command()
+        return
 
-            for i in range(1, 4):
-                subject = getColumns(cursor, "Faculty", \
-                                     ["subject" + str(i)])[0][0]
-                if len(getColumns(cursor, "Exams", ["passport"], \
-                                  [("passport", person.passport), \
-                                  ("subject", int(subject))])) == 0:
-                    passed = False
+    print_middle("Оригинал или копия Yes/No(или q для выхода): ")
 
-            if not passed:
-                print("Вы не сдали все необходимые экзамены")
-                continue
+    original = "No"
+    while True:
+        original = input(">")
 
-            original = "No"
+        if original == "q":
+            break
 
-            print("Оригинал или копия Yes/No(или q для выхода): ")
+        if original == "Yes" and person.faculty_code != "NULL":
+            print(person.faculty_code)
+            print("Вы уже подали оригинал")
+            continue
 
-            while True:
-                original = input(">")
-                if original == "q":
-                    break
-                elif original == "Yes" and person.faculty_code != "NULL":
-                    print("Вы уже подали оригинал")
-                elif original == "Yes" or original == "No":
-                    break
+        if original == "Yes" or original == "No":
+            break
 
-            cls()
-    
-            if original == "q":
-                continue
+    if original == "q":
+        return
 
-            if original == "Yes":
-                person.faculty_code = code
-                person.erase(cursor)
-                person.insert(cursor)
+    if original == "Yes":
+        person.faculty_code = code
+        person.erase(cursor)
+        person.insert(cursor)
 
-            query_table(cursor, "INSERT INTO Documents " \
-                                "(passport, faculty_code) " \
-                                "VALUES(?, ?)", \
-                                (person.passport, int(code)), \
-                                "Incorrect data: ")
+    query_table(cursor, """
+    INSERT INTO Documents (passport, faculty_code) VALUES(?, ?)
+    """, (person.passport, int(code)), "Incorrect data: insert docs to faculty")
+
+    cls()
+    print_middle("Вы успешно подали {} на факультет №{}".format("оригинал" if original == "Yes" else "копию",
+                                                        person.faculty_code))
+
+    end_command()
 
 def deleteDocsFromFaculty(cursor, person):
+    cls()
+    print_middle("Введите код факультета, из которого вы хотите забрать документы(или q для выхода)")
+
+    code = -1
+    faculty_codes = getColumns(cursor, "Documents", \
+                               ["faculty_code"], \
+                               [("passport", person.passport)])
     while True:
-        print("\tВведите 0 для выхода в предыдущее меню\n" \
-              "\tВведите 1, если хотите забрать документы\n")
+        code = input(">")
 
-        in_ = input(">")
+        if code == "q":
+            break
 
-        if in_ == "0":
-            return
+        if (int(code),) not in faculty_codes:
+            print("Вы не подавали документы в этот вуз")
+            continue
 
-        if in_ == "1":
-            code = -1
-            cls()
-            print("""
-            Введите код факультета, из которого вы хотите забрать документы(или q для выхода): 
-            """)
-            while True:
+        break
 
-                code = input(">")
+    if code == "q":
+        return
 
-                if code == "q":
-                    break
+    code = int(code)
+    if person.faculty_code == code:
+        person.faculty_code = "NULL"
+        person.erase(cursor)
+        person.insert(cursor)
 
-                faculty_codes = getColumns(cursor, "Documents", \
-                                           ["faculty_code"], \
-                                           [("passport", person.passport)])
-                if not ((int(code),) in faculty_codes):
-                    print("Вы не подавали документы в этот вуз")
-                    continue
-                else:
-                    break
 
-            if code == "q":
-                continue
-            
-            if person.faculty_code != "NULL" and 
-                    int(person.faculty_code) == int(code):
-                person.faculty_code = "NULL"
-                person.erase(cursor)
-                person.insert(cursor)
+    query_table(cursor, """
+    DELETE FROM Documents
+    WHERE faculty_code = ?
+    AND passport = ?
+    """, (code, person.passport), "Ошибка в удалении поданного документа")
 
-            query_table(cursor, "DELETE FROM Documents " \
-                                "WHERE faculty_code = ?", \
-                                (int(code),), \
-                                "Ошибка в удалении поданного документа")
-
-            print("Вы успешно забрали документы")
-            
+    cls()
+    print_middle("Вы успешно забрали документы")
+    end_command()

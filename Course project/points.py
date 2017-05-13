@@ -10,8 +10,8 @@ def mainPoint(cursor, person):
         print ("\tВведите 0 для выхода c профиля {} {}\n".format(person.name, person.surname),
                "\tВведите 1 для изменения профиля\n",
                "\tВведите 2 для перехода к выполнению команд\n"
-               "\tВведите 3 для управления подаными документами\n",
-               )
+               "\tВведите 3 для управления подаными документами\n",)
+
         in_ = input(">")
     
         if in_ == "0":
@@ -51,7 +51,7 @@ def pointCom(cursor, person):
 
         if in_ == "3":
             printFacultiesWithDocs(cursor, person)
-        
+
         if in_ == "4":
             printSubjects(cursor)
 
@@ -90,7 +90,7 @@ def pointSet(cursor, person):
  
 def changeFIO(cursor, person):
     while True:
-        cls();
+        cls()
         print("\tВведите 0 для выхода в предыдущее меню\n",
               "\tВведите 1 для изменения фамилии\n",
               "\tВведите 2 для изменения имени\n",

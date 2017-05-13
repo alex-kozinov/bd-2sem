@@ -12,13 +12,13 @@ class Pupil(object):
         self.faculty_code = "NULL"
 
     def assign_data(self, data):
-        self.passport = data[0]
-        self.name = data[1]
-        self.surname = data[2]
-        self.midname = data[3]
-        self.city = data[4]
-        self.gender = data[5]
-        self.faculty_code = data[6]
+        self.passport = to_sql_format(data[0])
+        self.name = to_sql_format(data[1])
+        self.surname = to_sql_format(data[2])
+        self.midname = to_sql_format(data[3])
+        self.city = to_sql_format(data[4])
+        self.gender = to_sql_format(data[5])
+        self.faculty_code = to_sql_format(data[6])
 
     def init_with_passport(self, cursor):
         query_table(cursor, "SELECT * FROM Pupils WHERE passport = " + str(self.passport), \
@@ -73,9 +73,7 @@ class Pupil(object):
 
     def read_gender(self):
         print("Введите ваш пол (M/F): ")
-        self.gender = read_str()
-        while self.gender != "M" and self.gender != "F":
-            self.gender = read_str()
+        self.gender = special_read(["M", "F"])
 
     def read_other_data(self):
         self.read_name()

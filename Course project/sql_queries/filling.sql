@@ -38,6 +38,4 @@ INSERT INTO Olympiads VALUES (12, 'Высшая проба',                    
 INSERT INTO Olympiads VALUES (13, 'Физтех',                                 3, 1)
 INSERT INTO Olympiads VALUES (14, 'Московская олимпиада',                   5, 1)
 
-
-
-
+INSERT INTO Pupils VALUES ('11', 'Тест', 'Тестов', 'Тестовович', 'Тестск', 'M', NULL)
