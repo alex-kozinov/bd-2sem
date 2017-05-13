@@ -26,7 +26,7 @@ def insertExamsResults(cursor, person):
                         getColumns(cursor, "Subjects", ["subject_code"])):
                     print("Некорректный код")
                     continue
-                elif (person.passport, int(subject)) in 
+                elif (person.passport, int(subject)) in \
                         getColumns(cursor, "Exams", ["passport", "subject"]):
                     print("Результаты уже добавлены")
                 else:
